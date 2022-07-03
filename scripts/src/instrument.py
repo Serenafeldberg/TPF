@@ -10,7 +10,7 @@ from typing import List
 class Instrument ():
     def __init__ (self, file, frecuency):
         self.file = file
-        self.note = Note('debussy-clair-de-lune.txt')
+        self.note = Note('queen.txt')
         self.frecuency = frecuency
         self.duration = self.note.get_duration()
         self.instrument = self.read_file()
@@ -120,7 +120,7 @@ class Instrument ():
         data_s = self.sustained(t)
         y [(t >= duration_a) & (t < seconds_d)] *= data_s [(t >= duration_a) & (t < seconds_d)]
 
-        return y 
+        return y, duration_a 
 
     def gen_tone(self, frec, end , tstart = 0):
         '''
@@ -128,7 +128,7 @@ class Instrument ():
         frecuencia fundamental
 
         PARAMS:
-        -> freq: frecuency of the note
+        -> frec: frecuency of the note
         -> end: time of end
         -> tstart: time of start
         '''
@@ -143,8 +143,8 @@ class Instrument ():
                 y = a * np.sin(2 * np.pi * multiplies * frec * t)
                 yy += y
         
-        array_mod = self.gen_mod(t, yy, (end - tstart))
-        return array_mod
+        array_mod, time_of_attack = self.gen_mod(t, yy, (end - tstart))
+        return array_mod, time_of_attack
 
     def partes (self):
         '''
@@ -165,9 +165,10 @@ class Instrument ():
             duration_note = notes[val][2]
             end = start + duration_note
             frec = notes[val][1]
-            y = self.gen_tone(frec, end, start)
-            zero[int(start*self.frecuency):int(end*self.frecuency)]
-            if zero[int(start*self.frecuency):int(end*self.frecuency)].shape == y.shape:
+            y, time_of_attack = self.gen_tone(frec, end, start)
+            if zero[int(start*self.frecuency):int(end*self.frecuency)].shape != y.shape:
+                y = np.delete(y, len(y) - 1)
+            if duration_note > time_of_attack:
                 zero[int(start*self.frecuency):int(end*self.frecuency)] += y
             zero [zero > 1] = 1
             zero [zero < -1] = -1

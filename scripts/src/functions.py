@@ -39,13 +39,9 @@ def halfsin (t, t0):
     return a / 2
 
 def log (t, t0):
-    result = np.where(t > t0, t, t0)
-    np.log10(result, out=result, where=result > 0)
-    return result
-    '''
-    val = (-9) * t / t0
-    return np.log10(val + 1)
-    '''
+    val = np.log10((-9) * t / t0 + 1)
+    return val 
+    
     
 def invlog (t, t0):
     t [t < t0] = np.log10(((-9) * t [t< t0] / t0) + 10)
