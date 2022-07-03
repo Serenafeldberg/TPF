@@ -44,8 +44,8 @@ class Instrument ():
         '''
         fn = {'CONSTANT': functions.constant(t), 'LINEAR':  functions.linear(t, t0), 'INVLINEAR': functions.invlinear(t, t0), 'SIN': functions.sin(t, a, f)
         , 'EXP': functions.exp(t, t0), 'INVEXP': functions.invexp(t, t0), "QUARTCOS": functions.quartcos(t, t0)
-        , "QUARTSIN": functions.quartsin(t, t0), 'HALFCOS': functions.halfcos(t, t0), 'HALFSIN': functions.halfsin(t, t0)}
-        #, 'LOG': functions.log(t, t0), 'INVLOG': functions.invlog(t, t0), 'TRI': functions.tri(t, t0, t1, a1), 'PULSES': functions.pulses(t, t0, t1, a1)}
+        , "QUARTSIN": functions.quartsin(t, t0), 'HALFCOS': functions.halfcos(t, t0), 'HALFSIN': functions.halfsin(t, t0)
+        , 'LOG': functions.log(t, t0), 'INVLOG': functions.invlog(t, t0), 'TRI': functions.tri(t, t0, t1, a1), 'PULSES': functions.pulses(t, t0, t1, a1)}
         return fn[function]
 
     def get_params (self, a_list: List, t):
@@ -144,6 +144,8 @@ class Instrument ():
                 yy += y
         
         array_mod = self.gen_mod(t, yy, (end - tstart))
+        plt.plot(t, array_mod)
+        plt.show()
         return array_mod
 
     def partes (self):
@@ -197,6 +199,7 @@ class Instrument ():
         plt.show()
 
 ins = Instrument('piano.txt', 44100)
-y = ins.partes()
+ins.gen_tone(440, 0.18)
+#y = ins.partes()
 
-write ('audio.wav', 44100, y)
+#write ('audio.wav', 44100, y)

@@ -10,7 +10,7 @@ def linear (t, t0):
 
 def invlinear (t, t0):
     value = 1 - (t/ t0)
-    return value.max
+    return np.clip (value, 0, 1)
 
 def sin (t, a, f):
     return 1 + a * np.sin(f * t)
@@ -48,14 +48,14 @@ def log (t, t0):
     '''
     
 def invlog (t, t0):
-    t [t < t0] = np.log10(((-9) * t / t0) + 10) [t < t0]
+    t [t < t0] = np.log10(((-9) * t [t< t0] / t0) + 10)
     t [t >= t0] = 0
     
     return t
 
 def tri (t, t0, t1, a1):
-    t [t < t1] = (t * a1 / t1) [t < t1]
-    t [t > t1] = (((t - t1) / (t1 - t0)) + a1) [t > t1]
+    t [t < t1] = t[t < t1] * a1 / t1
+    t [t > t1] = ((t [t > t1] - t1) / (t1 - t0)) + a1
 
     return t
 
