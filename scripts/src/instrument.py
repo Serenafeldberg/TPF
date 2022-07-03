@@ -199,5 +199,6 @@ class Instrument ():
 
 ins = Instrument('piano.txt', 44100)
 y = ins.partes()
-
-write ('audio.wav', 44100, y)
+#esto de data lo hizo debora supuestamente para desaturar pero h
+data = 2 ** 12 / np.max(abs(y)) * y
+write ('audio.wav', 44100, data.astype(np.int16))
