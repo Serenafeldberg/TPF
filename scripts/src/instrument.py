@@ -144,8 +144,6 @@ class Instrument ():
                 yy += y
         
         array_mod = self.gen_mod(t, yy, (end - tstart))
-        plt.plot(t, array_mod)
-        plt.show()
         return array_mod
 
     def partes (self):
@@ -168,7 +166,7 @@ class Instrument ():
             end = start + duration_note
             frec = notes[val][1]
             y = self.gen_tone(frec, end, start)
-            
+            zero[int(start*self.frecuency):int(end*self.frecuency)]
             if zero[int(start*self.frecuency):int(end*self.frecuency)].shape == y.shape:
                 zero[int(start*self.frecuency):int(end*self.frecuency)] += y
             zero [zero > 1] = 1
@@ -199,7 +197,6 @@ class Instrument ():
         plt.show()
 
 ins = Instrument('piano.txt', 44100)
-ins.gen_tone(440, 0.18)
-#y = ins.partes()
+y = ins.partes()
 
-#write ('audio.wav', 44100, y)
+write ('audio.wav', 44100, y)
